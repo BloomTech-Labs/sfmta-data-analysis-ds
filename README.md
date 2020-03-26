@@ -1,132 +1,164 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
+# This document provides information on the SFMTA dataset features
 
-🚫 The numbers 1️⃣ through 5️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
+- Data points are collected by the nextbus company in collaboration with the MUNI and BART, within the San Francisco Municipal Transit Authority (SFMTA).  The following link will direct you to the nextbus services [link]<http://www.nextbus.com/>
 
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
+-  The SFMTA's mission statement is provided in the link below:
+    [link]<https://www.sfmta.com/about-us/sfmta-strategic-plan/mission-vision>
 
-# 1️⃣ SF MTA Data Analysis
+- Following will be descriptions of the features provided by nextbus's public XML Feed document
+    - The document contains information on how to utilize the API to obtain realtime information on municipal vehicles, with a brief introduction to XML.
 
-You can find the project at [🚫URL NAME GOES HERE](🚫copy and paste URL here).
+## Features and Attributes
 
-## 5️⃣ Contributors
+##### Note: A large part of this document is a paraphrasing (not verbatim) of the publicXMLFeed document provided by nextbus.  Anywhere text is copied verbatim will be clearly stated.
 
-🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
-
-|                                       [Student 1](https://github.com/)                                        |                                       [Student 2](https://github.com/)                                        |                                       [Student 3](https://github.com/)                                        |                                       [Student 4](https://github.com/)                                        |                                       [Student 5](https://github.com/)                                        |
-| :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-|                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
-|                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                 |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)             |           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)            |          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)           |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)             |
-| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
+##### Note on returned data
+- The returned data is a list of lists; stops, directions, and paths.  Stops provided to show details; titles, lat/lon, and numID.
+- Direction data (lat/lon) will be useful for user interface; "useForUI" set to True.
 
 
+- Route list for an agency
+    - Route lists are obtained through the link below:
+    [link]<http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&>
+    - After the ampersand, at the end of the link, include the agency variable 'a=<agency>'
 
-🚫 5️⃣ Optional examples of using images with links for your tech stack, make sure to change these to fit your project
+### The following is an outline of the attributes for specific features of the dataset
 
-![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
-![Typescript](https://img.shields.io/npm/types/typescript.svg?style=flat)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b5c4db1c-b10d-42c3-b157-3746edd9e81d/deploy-status)](netlify link goes in these parenthesis)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+- 'routeConfig' attributes (copied verbatim): Returns a list of routes for an agency. The agency is specified by the "a" parameter in the query string. The route is optionally specified by the "r" parameter. The tag for the route is obtained using the routeList command. If the "r" parameter is not specified, XML data for all routes for the agency is returned. Due to the large size of the resulting XML the routeConfig command is limited to providing data for only up to 100 routes per request. If an agency has more than 100 routes then multiple requests would need to be used to read data for all routes.
 
-🚫 more info on using badges [here](https://github.com/badges/shields)
+    - tag
+        - unique alphanumeric identifier for route, such as “N”.
+    - title
+        - the name of the route to be displayed in a User Interface, such as “N-Judah”
+    - shortTitle
+        - for some transit agencies shorter titles are provided that can be useful for
+        User Interfaces where there is not much screen real estate, such as on smartphones. This element is only provided where a short title is actually available. If a short title is not available then the regular title element should be used.
+    - color
+        - the color in hexadecimal format associated with the route. Useful for User Interfaces such as maps.
+    - oppositeColor
+        - the color that most contrasts with the route color. Specified in hexadecimal format. Useful for User Interfaces such as maps. Will be either black or white.
+    - latMin, latMax, lonMin, lonMax
+        - Specifies the extent of the route.  For instance minimum/maximum lon/lat refer to the minimum and maximums positional geographic points covered by a given route.
 
-## Project Overview
+- SFMTA 'stop' attributes:
 
+    - tag: Unique alphanumeric identifier; depending on the agency, the suffixes may change in the stop tag.
 
-1️⃣ [Trello Board] https://trello.com/b/0X0QTiP4/labs22-sftma-data-analysis (LMK if this link isn't correct).
+        - E: E-Embarcadero (I: FW, O: MB)
+        - F: F-Market & Wharves (I: FW, O: Castro)
+        - J: J-Church (I: ES or FE, O: BP)
+        - JBUS: JBUS-J Church Bus (I: E, O:BP)
+        - KT: KT-Ingleside-Third Street (I: BP, O: S&B)
+        - KTBU: KTBU-Kt Ingleside/Third Bus (I:, O:)
+        - KLM: KLM-Bus Muni Metro Shuttle
+        - L: L-Taraval
+        - LBUS: LBUS-L Taraval Bus
+        - M: M-Ocean View
+        - MBUS: MBUS-M Ocean View Bus
+        - N: N-Judah
+        - NBUS: NBUS-N Judah Bus Substitution
+        - NX: NX-Express
+        - S: S-Shuttle
+        - 1: 1-California
+        - 1AX: 1AX-California A Express
+        - 1BX: 1BX-California B Express
+        - 2: 2-Sutter/Clement
+        - 3: 3-Jackson
+        - 5: 5-Fulton
+        - 5R: 5R-Fulton Rapid
+        - 6: 6-Haight-Parnassus
+        - 7: 7-Haight-Noriega
+        - 7X: 7X-Noriega Express
+        - 8: 8-Bayshore
+        - 8AX: 8AX-Bayshore A Express
+        - 8BX: 8BX-Bayshore B Express
+        - 9: 9-San Bruno
+        - 9R: 9R-San Bruno Rapid
+        - 10: 10-Townsend
+        - 12: 12-Folsom-Pacific
+        - 14: 14-Mission
+        - 14: 14R-Mission Rapid
+        - 14X: 14X-Mission Express
+        - 18: 18-46th Avenue
+        - 19: 19-Polk
+        - 21: 21
+        - 22: 22-Fillmore
+        - 23: 23-Monterey
+        - 24: 24-Divisadero
+        - 25: 25-Treasure Island
+        - 27: 27-Bryant
+        - 28: 28-19th Avenue
+        - 28R: 28R-19th Avenue Rapid
+        - 29: 29-Sunset
+        - 30: 30-Stockton
+        - 30X: 30X-Marina Express
+        - 31: 31-Balboa
+        - 31AX: 31AX-Balboa A Express
+        - 31BX: 31BX-Balboa B Express
+        - 33: 33-Ashbury-18th St
+        - 35: 35-Eureka
+        - 36: 36-Teresita
+        - 37: 37-Corbett
+        - 38: 38-Geary
+        - 38R: 38R-Geary Rapid
+        - 38AX: 38AX-Geary A Express
+        - 38BX: 38BX-Geary B Express
+        - 39: 39-Coit
+        - 41: 41-Union
+        - 43: 43-Masonic
+        - 44: 44-O'Shaughnessy
+        - 45: 45-Union-Stockton
+        - 47: 47-Van Ness
+        - 48: 48-Quintara-24th Street
+        - 49: 49-Van Ness-Mission
+        - 52: 52-Excelsior
+        - 54: 54-Felton
+        - 55: 55-16th Street
+        - 56: 56-Rutland
+        - 57: 57-Parkmerced
+        - 66: 66-Quintara
+        - 67: 67-Bernal Heights
+        - 76X: 76X-Marin Headlands Express
+        - 78X: 78X-16th Street Arena Express
+        - 79X: 79X-Van Ness Arena Express
+        - 81X: 81X-Caltrain Express
+        - 82X: 82X-Levi Plaza Express
+        - 83X: 83X-Mid-Market Express
+        - 88: 88-Bart Shuttle
+        - 714: 714-Bart Early Bird
+        - 90: 90-San Bruno Owl
+        - 91: 91-Owl
+        - K_OWL: K-Owl
+        - L_OWL: L-Owl
+        - N_OWL: N-Owl
+        - PM: PM-Powell-Mason
+        - PH: PH-Powell-Hyde
+        - C: C-California Street Cable Car
 
-1️⃣ [Product Canvas] https://www.notion.so/SFMTA-Data-Analysis-d5d25791fbca4b1bbd0049f95275e5a0 (LMK if this should be the RC).
+- The Owl service
+    - Owl service runs every half hour between 1 and 5 a.m. nightly, for off peak commuters.  Muni Owl connects other regions in the Bay Area.  The Muni Owls are divided into different levels of service:
+        - Subway lines Running Owl Bus Service
+            - K_OWL: K-Ingleside Owl (Bus)
+            - N_OWL: N-Judah Owl (Bus)
+            - L_OWL: L-Taraval Owl (Bus)
+            - M: Ocean View Owl (Bus)'
+            - T: T-Third Street Owl (Bus)'
+            - 5: 5-Fulton
+            - 14: 14-Mission'
+            - 22: 22-Fillmore
+            - 24: 24-Divisadero
+            - 25: 25-Treasure Island
+            - 38: 38-Geary
+            - 44: 44-O'Shaughnessy
+            - 48: 48-Quintara-24th Street
+            - 90: 90-San Bruno Owl (Fort Mason-Visitacion Valley)
+            - 91: 91-Owl  (SF State-West Portal)
 
-### Project Description:
+- Cable Cars
+    - Three main lines; they run above ground and schedules remain relatively static.  Note on out-bound and in-bound directionality; Outbound is to Fisherman's Wharf and Inbound is to Powell and Market.
+        - C: C-California Street Cable Car (weekday/weekend schedules vary)
+        - PH: PH-Powell-Hyde (schedule is static)
+        - PM: PM-Powell-Mason (Weekday/Weekend schedules vary)
 
-Create a publicly available database of historical locations of bus and rail cars. Provide near real time analysis of travel times from major travel corridors. Give citizens, oversight committee members, and SFMTA staff accurate and timely historical data, along with statistics and analysis, to make informed decisions to measure system wide improvements.
-
-🚫  delete if front end is not applicable to your project
-
-1️⃣ [Deployed Front End](🚫add link to deployed app here)
-
-### Tech Stack
-
-🚫 List all of the languages, frameworks, services, etc used here.
-
-### 2️⃣ Predictions
-
-🚫 Describe your models here
-
-### 2️⃣ Explanatory Variables
-
--   Explanatory Variable 1
--   Explanatory Variable 2
--   Explanatory Variable 3
--   Explanatory Variable 4
--   Explanatory Variable 5
-
-### Data Sources
-🚫  Add to or delete souce links as needed for your project
-
-
--   [Source 1] (🚫add link to python notebook here)
--   [Source 2] (🚫add link to python notebook here)
--   [Source 3] (🚫add link to python notebook here)
--   [Source 4] (🚫add link to python notebook here)
--   [Source 5] (🚫add link to python notebook here)
-
-### Python Notebooks
-
-🚫  Add to or delete python notebook links as needed for your project
-
-[Python Notebook 1](🚫add link to python notebook here)
-
-[Python Notebook 2](🚫add link to python notebook here)
-
-[Python Notebook 3](🚫add link to python notebook here)
-
-### 3️⃣ How to connect to the web API
-
-🚫 List directions on how to connect to the API here
-
-### 3️⃣ How to connect to the data API
-
-🚫 List directions on how to connect to the API here
-
-## Contributing
-
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
-
-Please note we have a [code of conduct](./code_of_conduct.md.md). Please follow it in all your interactions with the project.
-
-### Issue/Bug Request
-
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
-
-### Feature Requests
-
-We would love to hear from you about new features which would improve this app and further the aims of our project. Please provide as much detail and information as possible to show us why you think your new feature should be implemented.
-
-### Pull Requests
-
-If you have developed a patch, bug fix, or new feature that would improve this app, please submit a pull request. It is best to communicate your ideas with the developers first before investing a great deal of time into a pull request to ensure that it will mesh smoothly with the project.
-
-Remember that this project is licensed under the MIT license, and by submitting a pull request, you agree that your work will be, too.
-
-#### Pull Request Guidelines
-
-- Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-- Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
-- Ensure that your code conforms to our existing code conventions and test coverage.
-- Include the relevant issue number, if applicable.
-- You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
-
-### Attribution
-
-These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Backend Documentation](_link to your backend readme here_) for details on the backend of our project.
-
-See [Front End Documentation](_link to your front end readme here_) for details on the front end of our project.
-
+- Muni Metro Light Rail
+    - 
