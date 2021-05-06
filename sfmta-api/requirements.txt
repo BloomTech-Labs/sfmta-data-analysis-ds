@@ -10,7 +10,7 @@ configparser==5.0.0
 fastapi==0.54.2
 Fiona==1.8.13.post1
 Flask==1.1.2
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-SQLAlchemy==2.4.1
 geographiclib==1.50
 geopandas==0.7.0
